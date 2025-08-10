@@ -1,0 +1,548 @@
+/* frontend/src/components/Chat.css */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.register-container form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
+}
+
+.register-container input {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.register-container button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.chat-container {
+  display: flex;
+  height: 100vh;
+}
+
+.users-list {
+  width: 250px;
+  background-color: #2c3e50;
+  color: white;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.users-list h3 {
+  margin-top: 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #34495e;
+}
+
+.users-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.users-list li {
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.users-list li:hover {
+  background-color: #34495e;
+}
+
+.users-list li.selected {
+  background-color: #3498db;
+}
+
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ecf0f1;
+}
+
+.messages-container {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.message {
+  max-width: 70%;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.message.sent {
+  background-color: #3498db;
+  color: white;
+  margin-left: auto;
+}
+
+.message.received {
+  background-color: #bdc3c7;
+  margin-right: auto;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.message-content {
+  word-wrap: break-word;
+}
+
+.message-form {
+  display: flex;
+  padding: 1rem;
+  background-color: white;
+  border-top: 1px solid #ddd;
+}
+
+.message-form input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.message-form button {
+  padding: 0.5rem 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.select-user-prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #7f8c8d;
+}
+
+/* Estilos para la lista de usuarios */
+.users-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.users-list li {
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #eee;
+}
+
+.users-list li:hover {
+  background-color: #f5f5f5;
+}
+
+.users-list li.selected {
+  background-color: #e3f2fd;
+  font-weight: bold;
+}
+
+.users-list .no-users {
+  color: #666;
+  font-style: italic;
+  cursor: default;
+}
+
+/* Estilos para el área de chat */
+.chat-header {
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Estilos generales */
+.app-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.auth-container form {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
+}
+
+.auth-container input {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: #f44336;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+}
+
+/* Contenedor principal del chat */
+.chat-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* Lista de usuarios */
+.users-list {
+  width: 250px;
+  background-color: #2c3e50;
+  color: white;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.users-list h3 {
+  margin-top: 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #34495e;
+}
+
+.users-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.users-list li {
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 4px;
+  margin-bottom: 0.25rem;
+}
+
+.users-list li:hover {
+  background-color: #34495e;
+}
+
+.users-list li.selected {
+  background-color: #3498db;
+  font-weight: bold;
+}
+
+.users-list .no-users {
+  color: #95a5a6;
+  font-style: italic;
+  padding: 0.75rem;
+}
+
+/* Área de chat */
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #ecf0f1;
+}
+
+.chat-header {
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.typing-indicator {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.messages-container {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+.message {
+  max-width: 70%;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  position: relative;
+}
+
+.message.sent {
+  background-color: #3498db;
+  color: white;
+  margin-left: auto;
+}
+
+.message.received {
+  background-color: #bdc3c7;
+  margin-right: auto;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.message.sent .message-header {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.message.received .message-header {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.message-content {
+  word-wrap: break-word;
+}
+
+.select-user-prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #7f8c8d;
+  font-size: 1.2rem;
+}
+
+/* Formulario de mensaje */
+.message-form {
+  display: flex;
+  padding: 1rem;
+  background-color: white;
+  border-top: 1px solid #ddd;
+}
+
+.message-form input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.message-form button {
+  padding: 0.75rem 1.5rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.message-form button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* ========== ESTILOS MEJORADOS PARA FORMULARIO DE REGISTRO ========== */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  z-index: 1000;
+}
+
+.auth-container form {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 350px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.auth-container h2 {
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.auth-container input {
+  width: 100%;
+  padding: 0.8rem;
+  margin: 0.8rem 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.auth-container input:focus {
+  border-color: #4CAF50;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+}
+
+.auth-container button {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.auth-container button:hover {
+  background-color: #3d8b40;
+  transform: translateY(-2px);
+}
+
+.auth-container button:active {
+  transform: translateY(0);
+}
+
+.error-message {
+  color: #e74c3c;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  min-height: 1.2rem;
+  font-weight: 500;
+}
+
+/* Animación de entrada (nueva) */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* Notificaciones de mensajes no leídos */
+.unread-badge {
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+/* Estilos para mensajes no leídos */
+.message.unread {
+  border-left: 3px solid #e74c3c;
+  background-color: rgba(231, 76, 60, 0.05);
+}
+
+/* Checkmarks para mensajes leídos */
+.message.sent .message-header span {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Badges para mensajes no leídos en UserList */
+.unread-badge {
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 50%;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+}
+
+.user-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.users-list-container {
+  width: 250px;
+  background-color: #2c3e50;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Encabezado de la empresa */
+.company-header {
+  padding: 1rem;
+  border-bottom: 1px solid #34495e;
+  background-color: #1a2634;
+}
+
+.company-name {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.chats-label {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.9rem;
+  color: #bdc3c7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
