@@ -4,7 +4,9 @@ import UserList from './UserList';
 import MessageInput from './MessageInput';
 import './Chat.css';
 
-const socket = io('https://chatbackend-production-603c.up.railway.app');
+const socket = io(process.env.REACT_APP_BACKEND_URL, {
+  transports: ['websocket']
+  });
 
 const Chat = () => {
   const [username, setUsername] = useState('');
