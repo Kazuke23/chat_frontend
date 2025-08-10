@@ -6,7 +6,7 @@ import './Chat.css';
 
 const socket = io(process.env.REACT_APP_BACKEND_URL, {
   transports: ['websocket']
-  });
+});
 
 const Chat = () => {
   const [username, setUsername] = useState('');
@@ -14,37 +14,31 @@ const Chat = () => {
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [messages, setMessages] = useState([]);
-  //const [isTyping, setIsTyping] = useState(false);// TODO: Se usará para funcionalidad futura
   const [typingUser, setTypingUser] = useState(null);
   const [error, setError] = useState('');
   const [unreadCounts, setUnreadCounts] = useState({});
+  const [showUserList, setShowUserList] = useState(true); // NUEVO: controlar visibilidad lista en móviles
   const messagesEndRef = useRef(null);
 
-  // Efecto para manejar la conexión y eventos del socket
   useEffect(() => {
-    // Evento para éxito de registro
     socket.on('registrationSuccess', (data) => {
       setCurrentUser(data.currentUser);
       setConnectedUsers(data.otherUsers);
       setUnreadCounts(data.unreadCounts || {});
     });
 
-    // Evento para error de registro
     socket.on('registrationError', (errorMessage) => {
       setError(errorMessage);
     });
 
-    // Evento para nuevo mensaje recibido
     socket.on('newMessage', (message) => {
       if (selectedUser === message.from) {
-        // Si está viendo el chat, agregar mensaje y marcar como leído
         setMessages(prev => [...prev, message]);
         socket.emit('markAsRead', {
-          sender: message.from, 
+          sender: message.from,
           receiver: currentUser
         });
       } else {
-        // Si no está viendo el chat, actualizar contador de no leídos
         setUnreadCounts(prev => ({
           ...prev,
           [message.from]: (prev[message.from] || 0) + 1
@@ -52,17 +46,14 @@ const Chat = () => {
       }
     });
 
-    // Evento para confirmación de mensaje enviado
     socket.on('messageSent', (message) => {
       if (selectedUser === message.to) {
         setMessages(prev => [...prev, message]);
       }
     });
 
-    // Evento para mensajes marcados como leídos
     socket.on('messagesRead', ({ by }) => {
       if (selectedUser === by) {
-        // Actualizar visualmente los mensajes como leídos si es necesario
         setMessages(prev => prev.map(msg => ({
           ...msg,
           read: true
@@ -70,7 +61,6 @@ const Chat = () => {
       }
     });
 
-    // Eventos para usuarios conectados/desconectados
     socket.on('userConnected', (user) => {
       setConnectedUsers(prev => [...prev, user]);
     });
@@ -80,15 +70,13 @@ const Chat = () => {
       if (selectedUser === username) {
         setSelectedUser(null);
       }
-      // Eliminar de contadores no leídos si existe
       setUnreadCounts(prev => {
-        const newCounts = {...prev};
+        const newCounts = { ...prev };
         delete newCounts[username];
         return newCounts;
       });
     });
 
-    // Eventos para typing
     socket.on('userTyping', (username) => {
       if (selectedUser === username) {
         setTypingUser(username);
@@ -99,7 +87,6 @@ const Chat = () => {
       setTypingUser(null);
     });
 
-    // Limpieza al desmontar
     return () => {
       socket.off('registrationSuccess');
       socket.off('registrationError');
@@ -113,18 +100,16 @@ const Chat = () => {
     };
   }, [selectedUser, currentUser]);
 
-  // Limpiar notificaciones al cambiar de chat
   useEffect(() => {
-  if (selectedUser && unreadCounts[selectedUser]) {
-    setUnreadCounts(prev => {
-      const newCounts = {...prev};
-      delete newCounts[selectedUser];
-      return newCounts;
-    });
-  }
-}, [selectedUser, unreadCounts]); // Añade unreadCounts a las dependencias
+    if (selectedUser && unreadCounts[selectedUser]) {
+      setUnreadCounts(prev => {
+        const newCounts = { ...prev };
+        delete newCounts[selectedUser];
+        return newCounts;
+      });
+    }
+  }, [selectedUser, unreadCounts]);
 
-  // Auto-scroll al actualizar mensajes
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -143,13 +128,15 @@ const Chat = () => {
 
   const handleSelectUser = (user) => {
     setSelectedUser(user.username);
-    // Usar el nuevo método para obtener historial
-    socket.emit('getChatHistory', { 
+    socket.emit('getChatHistory', {
       withUser: user.username,
       currentUser: currentUser
     }, (messages) => {
       setMessages(messages);
     });
+    if (window.innerWidth <= 1024) {
+      setShowUserList(false); // Ocultar lista en móviles
+    }
   };
 
   const handleSendMessage = (messageText) => {
@@ -192,21 +179,31 @@ const Chat = () => {
   }
 
   return (
-      <div className="chat-container">
-      <div className="users-list-container">
-        <div className="company-header">
-          <h2 className="company-name">SDH Inc</h2>
-          <p className="chats-label">Chats</p>
+    <div className="chat-container">
+      {/* Botón para alternar lista en móviles */}
+      <button
+        className="toggle-users-btn"
+        onClick={() => setShowUserList(!showUserList)}
+      >
+        {showUserList ? 'Ocultar usuarios' : 'Mostrar usuarios'}
+      </button>
+
+      {showUserList && (
+        <div className="users-list-container">
+          <div className="company-header">
+            <h2 className="company-name">SDH Inc</h2>
+            <p className="chats-label">Chats</p>
+          </div>
+          <UserList
+            users={connectedUsers}
+            currentUser={currentUser}
+            selectedUser={selectedUser}
+            onSelectUser={handleSelectUser}
+            unreadCounts={unreadCounts}
+          />
         </div>
-        <UserList 
-          users={connectedUsers}
-          currentUser={currentUser}
-          selectedUser={selectedUser}
-          onSelectUser={handleSelectUser}
-          unreadCounts={unreadCounts}
-        />
-      </div>
-      
+      )}
+
       <div className="chat-area">
         {selectedUser ? (
           <>
@@ -218,11 +215,11 @@ const Chat = () => {
                 </div>
               )}
             </div>
-            
+
             <div className="messages-container">
               {messages.map((msg, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className={`message ${msg.from === currentUser ? 'sent' : 'received'} ${!msg.read && msg.from !== currentUser ? 'unread' : ''}`}
                 >
                   <div className="message-header">
@@ -237,8 +234,8 @@ const Chat = () => {
               ))}
               <div ref={messagesEndRef} />
             </div>
-            
-            <MessageInput 
+
+            <MessageInput
               onSendMessage={handleSendMessage}
               onTyping={handleTyping}
               disabled={!selectedUser}
