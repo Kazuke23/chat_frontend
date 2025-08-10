@@ -4,7 +4,7 @@ import UserList from './UserList';
 import MessageInput from './MessageInput';
 import './Chat.css';
 
-const socket = io('http://localhost:4000');
+const socket = io('https://chat-backend-zh1y.vercel.app/');
 
 const Chat = () => {
   const [username, setUsername] = useState('');
